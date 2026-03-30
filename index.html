@@ -115,16 +115,15 @@
     .hero-content {
       position: relative;
       z-index: 3;
-      max-width: 900px;
-
-      background: rgba(245, 240, 232, 0.25);
+    
+      display: inline-block; /* clave */
+      max-width: 100%;
+    
+      background: rgba(245, 240, 232, 0.22);
       backdrop-filter: blur(6px);
-
-      padding: 2rem 2.5rem;
+    
+      padding: 1.2rem 1.5rem;
       border-radius: 4px;
-
-      border: 1px solid rgba(0,0,0,0.05);
-
     }
 
     .hero-label {
@@ -139,7 +138,7 @@
 
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3.5rem, 10vw, 8.5rem);
+      font-size: clamp(3rem, 8vw, 6rem);
       font-weight: 300;
       line-height: 0.95;
       color: var(--ink);
