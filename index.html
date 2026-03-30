@@ -12,17 +12,12 @@
       --cream: #f5f0e8;
       --cream-dark: #ede6d6;
       --ink: #1a1714;
-      --warm: #b21e35;           /* ← Rojo del logo (nuevo color principal) */
+      --warm: #b21e35;           /* Rojo del logo */
       --dust: #c4b49a;
       --soft: #e8e0d0;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
 
     body {
@@ -40,9 +35,7 @@
     /* NAV */
     nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 100;
       display: flex;
       justify-content: space-between;
@@ -50,7 +43,6 @@
       padding: 1.5rem 3rem;
       mix-blend-mode: multiply;
     }
-
     .nav-logo img {
       height: 42px;
       width: auto;
@@ -62,7 +54,6 @@
       gap: 2.5rem;
       list-style: none;
     }
-
     .nav-links a {
       font-family: 'Jost', sans-serif;
       font-weight: 200;
@@ -73,9 +64,7 @@
       text-decoration: none;
       transition: color 0.3s ease;
     }
-
     .nav-links a:hover { color: var(--warm); }
-
     
     /* HERO */
     #hero {
@@ -615,15 +604,13 @@
       align-items: center;
       border-top: 1px solid var(--dust);
     }
-
     .footer-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.95rem;
-      font-weight: 400;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--ink);
+      height: 28px;
+      width: auto;
+      display: block;
+      transition: transform 0.3s ease;
     }
+    .footer-logo:hover { transform: scale(1.05); }
 
     .footer-copy {
       font-size: 0.65rem;
@@ -631,7 +618,6 @@
       color: var(--warm);
       text-transform: uppercase;
     }
-
     .footer-ig {
       font-size: 0.65rem;
       letter-spacing: 0.15em;
@@ -640,16 +626,7 @@
       text-decoration: none;
       transition: color 0.3s;
     }
-
-    .footer-logo img {
-      height: 28px;
-      width: auto;
-      display: block;
-    }
-
-    .footer-ig:hover {
-      color: var(--ink);
-    }
+    .footer-ig:hover { color: var(--ink); }
 
     /* ANIMATIONS */
     @keyframes fadeUp {
@@ -702,9 +679,10 @@
       footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
     }
 
-    @media (max-width: 560px) {
+  @media (max-width: 560px) {
       .product-grid { grid-template-columns: 1fr; }
       .nav-links { display: none; }
+      .footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
     }
   </style>
 </head>
@@ -987,7 +965,9 @@
 
   <!-- FOOTER -->
 <footer>
-    <img src="LogoDesignByVale.jpg" alt="Design By Vale" class="footer-logo">
+    <a href="#hero">
+      <img src="LogoDesignByVale.jpg" alt="Design By Vale" class="footer-logo">
+    </a>
     <span class="footer-copy">© 2025 · Hecho a mano con amor</span>
     <a href="https://www.instagram.com/designbyvale/" target="_blank" rel="noopener" class="footer-ig">Instagram ↗</a>
   </footer>
