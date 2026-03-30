@@ -12,7 +12,7 @@
       --cream: #f5f0e8;
       --cream-dark: #ede6d6;
       --ink: #1a1714;
-      --warm: #8c7355;
+      --warm: #b21e35;           /* ← Rojo del logo (nuevo color principal) */
       --dust: #c4b49a;
       --soft: #e8e0d0;
     }
@@ -23,9 +23,7 @@
       box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       background-color: var(--cream);
@@ -36,29 +34,8 @@
     }
 
     /* Custom cursor */
-    .cursor {
-      width: 8px;
-      height: 8px;
-      background: var(--ink);
-      border-radius: 50%;
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
-    }
-
-    .cursor-ring {
-      width: 32px;
-      height: 32px;
-      border: 1px solid var(--warm);
-      border-radius: 50%;
-      position: fixed;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: transform 0.25s ease, width 0.3s ease, height 0.3s ease;
-    }
+    .cursor { width: 8px; height: 8px; background: var(--ink); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease; }
+    .cursor-ring { width: 32px; height: 32px; border: 1px solid var(--warm); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: transform 0.25s ease, width 0.3s ease, height 0.3s ease; }
 
     /* NAV */
     nav {
@@ -74,14 +51,10 @@
       mix-blend-mode: multiply;
     }
 
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 400;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--ink);
+    .nav-logo img {
+      height: 42px;
+      width: auto;
+      display: block;
     }
 
     .nav-links {
@@ -101,10 +74,9 @@
       transition: color 0.3s ease;
     }
 
-    .nav-links a:hover {
-      color: var(--warm);
-    }
+    .nav-links a:hover { color: var(--warm); }
 
+    
     /* HERO */
     #hero {
       height: 100vh;
@@ -669,6 +641,12 @@
       transition: color 0.3s;
     }
 
+    .footer-logo img {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+
     .footer-ig:hover {
       color: var(--ink);
     }
@@ -738,7 +716,9 @@
 
   <!-- NAV -->
   <nav>
-    <a href="#hero" class="nav-logo">Design By Vale</a>
+    <a href="#hero" class="nav-logo">
+      <img src="LogoDesignByVale.jpg" alt="Design By Vale">
+    </a>
     <ul class="nav-links">
       <li><a href="#about">Nosotros</a></li>
       <li><a href="#manifesto">Filosofía</a></li>
@@ -1006,8 +986,8 @@
   </section>
 
   <!-- FOOTER -->
-  <footer>
-    <span class="footer-logo">Design By Vale</span>
+<footer>
+    <img src="LogoDesignByVale.jpg" alt="Design By Vale" class="footer-logo">
     <span class="footer-copy">© 2025 · Hecho a mano con amor</span>
     <a href="https://www.instagram.com/designbyvale/" target="_blank" rel="noopener" class="footer-ig">Instagram ↗</a>
   </footer>
