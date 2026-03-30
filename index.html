@@ -259,6 +259,26 @@
       display: none;
     }
 
+
+.about-photo {
+  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+}
+
+    .about-photo img {
+  width: 100%;
+  max-width: 320px; /* tamaño elegante, no muy grande */
+  height: auto;
+  object-fit: cover;
+}
+
+    .about-photo img {
+  filter: contrast(1.05) brightness(0.98);
+}
+
+
+    
     /* MANIFESTO */
     #manifesto {
       background: var(--ink);
@@ -959,6 +979,9 @@
     <div class="contact-inner">
       <p class="contact-label reveal">Hablemos</p>
       <h2 class="contact-heading reveal">¿Te enamoraste<br/>de <em>algo</em>?</h2>
+      <div class="about-photo reveal">
+      <img src="Designbyvale.jpg" alt="Vale midiendo diseño" />
+      </div>
       <p class="contact-text reveal">
         Cada prenda puede adaptarse a tu talle, preferencia de color o un detalle especial. Escribime por email o seguime en Instagram donde comparto el proceso detrás de cada pieza y los nuevos lanzamientos.
       </p>
