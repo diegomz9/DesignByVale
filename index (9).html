@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design By Vale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --cream-dark: #ede6d6;
+      --ink: #1a1714;
+      --warm: #8c7355;
+      --dust: #c4b49a;
+      --soft: #e8e0d0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--cream);
+      color: var(--ink);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 8px;
+      height: 8px;
+      background: var(--ink);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+    }
+
+    .cursor-ring {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--warm);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.25s ease, width 0.3s ease, height 0.3s ease;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+      mix-blend-mode: multiply;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--warm);
+    }
+
+    /* HERO */
+    #hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 3rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 60% 40%, var(--cream-dark) 0%, var(--cream) 100%);
+      z-index: 0;
+    }
+
+    .hero-texture {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='0.5' fill='%23c4b49a' opacity='0.4'/%3E%3C/svg%3E");
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+
+    .hero-label {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 10vw, 8.5rem);
+      font-weight: 300;
+      line-height: 0.95;
+      color: var(--ink);
+      opacity: 0;
+      animation: fadeUp 1.2s ease 0.3s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--warm);
+    }
+
+    .hero-sub {
+      margin-top: 2rem;
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: var(--warm);
+      opacity: 0;
+      animation: fadeUp 1.2s ease 0.6s forwards;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 3rem;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--warm);
+      opacity: 0;
+      animation: fadeIn 1s ease 1.2s forwards;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 50px;
+      background: var(--dust);
+      animation: scrollLine 2s ease-in-out 1.5s infinite;
+    }
+
+    @keyframes scrollLine {
+      0%, 100% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+    }
+
+    /* ABOUT */
+    #about {
+      padding: 8rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .about-label {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 2rem;
+    }
+
+    .about-heading em {
+      font-style: italic;
+      color: var(--warm);
+    }
+
+    .about-text {
+      font-size: 0.9rem;
+      line-height: 1.9;
+      color: #5a5048;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-sig {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.4rem;
+      color: var(--warm);
+      margin-top: 2.5rem;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-frame {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--cream-dark);
+      border: 1px solid var(--dust);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: var(--dust);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .about-frame svg {
+      opacity: 0.4;
+    }
+
+    .about-frame-hint {
+      font-size: 0.65rem;
+      color: var(--dust);
+      letter-spacing: 0.15em;
+    }
+
+    .about-accent {
+      position: absolute;
+      bottom: -2rem;
+      left: -2rem;
+      width: 120px;
+      height: 120px;
+      border: 1px solid var(--dust);
+      z-index: -1;
+    }
+
+    /* MANIFESTO */
+    #manifesto {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 8rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .manifesto-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .manifesto-label {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--dust);
+      margin-bottom: 2rem;
+    }
+
+    .manifesto-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.2;
+      color: var(--cream);
+      margin-bottom: 3rem;
+    }
+
+    .manifesto-heading em {
+      font-style: italic;
+      color: var(--dust);
+    }
+
+    .manifesto-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--warm);
+      margin: 0 auto 3rem;
+    }
+
+    .manifesto-text {
+      font-size: 0.9rem;
+      line-height: 2;
+      color: #c8bfb0;
+      margin-bottom: 1.5rem;
+    }
+
+    .manifesto-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 5rem;
+      padding-top: 4rem;
+      border-top: 1px solid #3a3530;
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-top: 0.5rem;
+    }
+
+    .manifesto-bg-text {
+      position: absolute;
+      bottom: -2rem;
+      right: -1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12rem;
+      font-weight: 300;
+      color: #2a2520;
+      pointer-events: none;
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    /* SHOP */
+    #shop {
+      padding: 8rem 3rem;
+    }
+
+    .shop-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .shop-heading-wrap .section-label {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 1rem;
+    }
+
+    .shop-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    .shop-heading em {
+      font-style: italic;
+      color: var(--warm);
+    }
+
+    .shop-note {
+      font-size: 0.78rem;
+      color: var(--warm);
+      letter-spacing: 0.1em;
+      max-width: 220px;
+      text-align: right;
+      line-height: 1.7;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+
+    .product-card {
+      cursor: none;
+    }
+
+    .product-image {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--soft);
+      border: 1px solid var(--dust);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: var(--dust);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: transform 0.5s ease;
+    }
+
+    .product-card:hover .product-image {
+      transform: scale(1.01);
+    }
+
+    .product-image svg {
+      opacity: 0.35;
+    }
+
+    .product-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(26, 23, 20, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .product-card:hover .product-overlay {
+      opacity: 1;
+    }
+
+    .product-cta {
+      display: inline-block;
+      padding: 0.7rem 2rem;
+      border: 1px solid var(--cream);
+      color: var(--cream);
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .product-cta:hover {
+      background: var(--cream);
+      color: var(--ink);
+    }
+
+    .product-info {
+      padding: 1.2rem 0 0;
+    }
+
+    .product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: var(--ink);
+    }
+
+    .product-detail {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-top: 0.3rem;
+    }
+
+    .product-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-top: 0.5rem;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: var(--ink);
+      color: var(--cream);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.7rem;
+    }
+
+    .shop-cta-wrap {
+      text-align: center;
+      margin-top: 4rem;
+    }
+
+    .shop-more-note {
+      font-size: 0.78rem;
+      color: #9a8e82;
+      letter-spacing: 0.1em;
+      margin-top: 1rem;
+    }
+
+    /* CONTACT */
+    #contact {
+      background: var(--cream-dark);
+      padding: 8rem 3rem;
+    }
+
+    .contact-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-label {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-heading em {
+      font-style: italic;
+      color: var(--warm);
+    }
+
+    .contact-text {
+      font-size: 0.88rem;
+      line-height: 1.9;
+      color: #5a5048;
+      margin-bottom: 3rem;
+    }
+
+    .contact-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2.5rem;
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: none;
+    }
+
+    .btn-dark {
+      background: var(--ink);
+      color: var(--cream);
+      border: 1px solid var(--ink);
+    }
+
+    .btn-dark:hover {
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--ink);
+    }
+
+    .btn-outline:hover {
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 2.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--dust);
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .footer-copy {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--warm);
+      text-transform: uppercase;
+    }
+
+    .footer-ig {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--warm);
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-ig:hover {
+      color: var(--ink);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+
+      #hero { padding: 0 1.5rem 3rem; }
+
+      #about {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        padding: 5rem 1.5rem;
+      }
+
+      .about-visual { order: -1; }
+
+      #manifesto { padding: 5rem 1.5rem; }
+      .manifesto-stats { grid-template-columns: 1fr; gap: 2rem; }
+      .manifesto-bg-text { display: none; }
+
+      #shop { padding: 5rem 1.5rem; }
+      .shop-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .shop-note { text-align: left; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+
+      #contact { padding: 5rem 1.5rem; }
+
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+    }
+
+    @media (max-width: 560px) {
+      .product-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">Design By Vale</a>
+    <ul class="nav-links">
+      <li><a href="#about">Nosotros</a></li>
+      <li><a href="#manifesto">Filosofía</a></li>
+      <li><a href="#shop">Colección</a></li>
+      <li><a href="#contact">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-texture"></div>
+    <div class="hero-content">
+      <p class="hero-label">Hecho a mano · Pieza por pieza</p>
+      <h1 class="hero-title">
+        Design<br/>
+        By <em>Vale</em>
+      </h1>
+      <p class="hero-sub">Moda consciente — cada prenda, una historia</p>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>scroll</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-text-col reveal">
+      <p class="about-label">La tienda</p>
+      <h2 class="about-heading">Ropa que<br/><em>vale la pena</em></h2>
+      <p class="about-text">
+        Design By Vale nació de una convicción simple: que la ropa debería tener alma. Cada pieza que encontrás acá fue pensada, cortada y cosida a mano, con materiales seleccionados y atención a cada detalle.
+      </p>
+      <p class="about-text">
+        No hay producción en masa. No hay atajos. Hay horas de trabajo, amor por el oficio y el compromiso de entregarte algo verdaderamente único. Una prenda que te dure, que te cuente algo, que sea tuya de verdad.
+      </p>
+      <p class="about-text">
+        Somos una marca pequeña y eso es exactamente el punto. Pequeña, cuidada, personal.
+      </p>
+      <p class="about-sig">— Vale</p>
+    </div>
+    <div class="about-visual reveal">
+      <div class="about-frame">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 32 C8 20 12 10 20 6 C28 10 32 20 32 32" stroke="#c4b49a" stroke-width="1" fill="none"/>
+          <path d="M14 32 C14 24 16 16 20 12 C24 16 26 24 26 32" stroke="#c4b49a" stroke-width="1" fill="none"/>
+          <line x1="8" y1="32" x2="32" y2="32" stroke="#c4b49a" stroke-width="1"/>
+        </svg>
+        <span>Foto de la tienda / Vale</span>
+        <span class="about-frame-hint">Reemplazá con tu imagen</span>
+      </div>
+      <div class="about-accent"></div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section id="manifesto">
+    <div class="manifesto-inner">
+      <p class="manifesto-label reveal">Por qué importa</p>
+      <h2 class="manifesto-heading reveal">
+        El fast fashion<br/>tiene un costo.<br/><em>Nosotros no lo pagamos.</em>
+      </h2>
+      <div class="manifesto-divider"></div>
+      <p class="manifesto-text reveal">
+        La industria de la moda rápida produce más de 100 mil millones de prendas al año. La mayoría se desecha en meses. Detrás hay condiciones laborales precarias, ríos contaminados y toneladas de textiles en basureros.
+      </p>
+      <p class="manifesto-text reveal">
+        Elegir ropa hecha a mano es un acto político. Es decirle no a ese sistema y sí a algo distinto: a la persona que cosió tu prenda, al tiempo que tomó hacerla, a la calidad que la hace durar años.
+      </p>
+      <p class="manifesto-text reveal">
+        Comprás menos, comprás mejor. Tu guardarropa se vuelve intencional. Cada pieza tiene valor. Eso es lo que ofrecemos — no tendencias, sino prendas que perduran.
+      </p>
+      <div class="manifesto-stats reveal">
+        <div>
+          <div class="stat-num">1</div>
+          <p class="stat-label">prenda a la vez</p>
+        </div>
+        <div>
+          <div class="stat-num">0</div>
+          <p class="stat-label">producción en masa</p>
+        </div>
+        <div>
+          <div class="stat-num">∞</div>
+          <p class="stat-label">años de durabilidad</p>
+        </div>
+      </div>
+    </div>
+    <div class="manifesto-bg-text" aria-hidden="true">Vale</div>
+  </section>
+
+  <!-- SHOP -->
+  <section id="shop">
+    <div class="shop-header reveal">
+      <div class="shop-heading-wrap">
+        <p class="section-label">Colección</p>
+        <h2 class="shop-heading">Las <em>piezas</em></h2>
+      </div>
+      <p class="shop-note">¿Te interesa alguna pieza?<br/>Escribime y la hacemos tuya.</p>
+    </div>
+
+    <div class="product-grid">
+
+      <!-- PRODUCTO 1 -->
+      <div class="product-card reveal">
+        <div class="product-image">
+          <div class="product-badge">Disponible</div>
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <rect x="10" y="4" width="16" height="28" rx="1" stroke="#c4b49a" stroke-width="1"/>
+            <path d="M10 4 L6 10 L6 32 L10 32" stroke="#c4b49a" stroke-width="1" fill="none"/>
+            <path d="M26 4 L30 10 L30 32 L26 32" stroke="#c4b49a" stroke-width="1" fill="none"/>
+          </svg>
+          <span>Foto del producto</span>
+          <div class="product-overlay">
+            <a href="mailto:tu@correo.com?subject=Consulta%20sobre%20Remera%20Lino" class="product-cta">Consultar por email</a>
+            <a href="https://www.instagram.com/designbyvale/" target="_blank" rel="noopener" class="product-cta">Ver en Instagram</a>
+          </div>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Remera Lino Natural</p>
+          <p class="product-detail">Talle único · Hecha a mano</p>
+          <p class="product-price">$XX.XXX</p>
+        </div>
+      </div>
+
+      <!-- PRODUCTO 2 -->
+      <div class="product-card reveal">
+        <div class="product-image">
+          <div class="product-badge">Últimas unidades</div>
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <path d="M18 4 C10 4 6 12 6 20 C6 28 10 33 18 33 C26 33 30 28 30 20 C30 12 26 4 18 4Z" stroke="#c4b49a" stroke-width="1" fill="none"/>
+            <path d="M12 10 C12 10 18 14 24 10" stroke="#c4b49a" stroke-width="1" fill="none"/>
+          </svg>
+          <span>Foto del producto</span>
+          <div class="product-overlay">
+            <a href="mailto:tu@correo.com?subject=Consulta%20sobre%20Vestido%20Boho" class="product-cta">Consultar por email</a>
+            <a href="https://www.instagram.com/designbyvale/" target="_blank" rel="noopener" class="product-cta">Ver en Instagram</a>
+          </div>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Vestido Boho Algodón</p>
+          <p class="product-detail">S / M · Hecha a mano</p>
+          <p class="product-price">$XX.XXX</p>
+        </div>
+      </div>
+
+      <!-- PRODUCTO 3 -->
+      <div class="product-card reveal">
+        <div class="product-image">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <rect x="8" y="4" width="20" height="5" rx="1" stroke="#c4b49a" stroke-width="1"/>
+            <path d="M8 9 L4 32 L32 32 L28 9" stroke="#c4b49a" stroke-width="1" fill="none"/>
+            <path d="M14 9 L14 16 C14 19 22 19 22 16 L22 9" stroke="#c4b49a" stroke-width="1" fill="none"/>
+          </svg>
+          <span>Foto del producto</span>
+          <div class="product-overlay">
+            <a href="mailto:tu@correo.com?subject=Consulta%20sobre%20Bolso%20Artesanal" class="product-cta">Consultar por email</a>
+            <a href="https://www.instagram.com/designbyvale/" target="_blank" rel="noopener" class="product-cta">Ver en Instagram</a>
+          </div>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Bolso Artesanal</p>
+          <p class="product-detail">Pieza única · Hecha a mano</p>
+          <p class="product-price">$XX.XXX</p>
+        </div>
+      </div>
+
+      <!-- PRODUCTO 4 -->
+      <div class="product-card reveal">
+        <div class="product-image">
+          <div class="product-badge">Encargo</div>
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <path d="M10 4 L10 32 L26 32 L26 4 Z" stroke="#c4b49a" stroke-width="1" fill="none"/>
+            <path d="M10 12 L4 12 L4 32 L10 32" stroke="#c4b49a" stroke-width="1" fill="none"/>
+            <path d="M26 12 L32 12 L32 32 L26 32" stroke="#c4b49a" stroke-width="1" fill="none"/>
+          </svg>
+          <span>Foto del producto</span>
+          <div class="product-overlay">
+            <a href="mailto:tu@correo.com?subject=Consulta%20sobre%20Campera" class="product-cta">Consultar por email</a>
+            <a href="https://www.instagram.com/designbyvale/" target="_blank" rel="noopener" class="product-cta">Ver en Instagram</a>
+          </div>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Campera de Algodón</p>
+          <p class="product-detail">S al L · Por encargo</p>
+          <p class="product-price">$XX.XXX</p>
+        </div>
+      </div>
+
+      <!-- PRODUCTO 5 -->
+      <div class="product-card reveal">
+        <div class="product-image">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <path d="M12 4 C12 4 8 8 8 18 C8 28 14 33 18 33 C22 33 28 28 28 18 C28 8 24 4 24 4" stroke="#c4b49a" stroke-width="1" fill="none"/>
+            <line x1="12" y1="4" x2="24" y2="4" stroke="#c4b49a" stroke-width="1"/>
+          </svg>
+          <span>Foto del producto</span>
+          <div class="product-overlay">
+            <a href="mailto:tu@correo.com?subject=Consulta%20sobre%20Falda" class="product-cta">Consultar por email</a>
+            <a href="https://www.instagram.com/designbyvale/" target="_blank" rel="noopener" class="product-cta">Ver en Instagram</a>
+          </div>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Falda Midi Lino</p>
+          <p class="product-detail">XS al L · Hecha a mano</p>
+          <p class="product-price">$XX.XXX</p>
+        </div>
+      </div>
+
+      <!-- PRODUCTO 6 -->
+      <div class="product-card reveal">
+        <div class="product-image">
+          <div class="product-badge">Nuevo</div>
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <path d="M10 10 L10 32 L26 32 L26 10 C22 8 14 8 10 10Z" stroke="#c4b49a" stroke-width="1" fill="none"/>
+            <path d="M10 10 L6 14 L6 32 L10 32" stroke="#c4b49a" stroke-width="1" fill="none"/>
+            <path d="M26 10 L30 14 L30 32 L26 32" stroke="#c4b49a" stroke-width="1" fill="none"/>
+          </svg>
+          <span>Foto del producto</span>
+          <div class="product-overlay">
+            <a href="mailto:tu@correo.com?subject=Consulta%20sobre%20Blazer" class="product-cta">Consultar por email</a>
+            <a href="https://www.instagram.com/designbyvale/" target="_blank" rel="noopener" class="product-cta">Ver en Instagram</a>
+          </div>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Blazer Artesanal</p>
+          <p class="product-detail">Talle único · Nueva colección</p>
+          <p class="product-price">$XX.XXX</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="shop-cta-wrap reveal">
+      <p class="shop-more-note">¿Buscás algo en particular? Todas las piezas son por encargo — hablemos.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <p class="contact-label reveal">Hablemos</p>
+      <h2 class="contact-heading reveal">¿Te enamoraste<br/>de <em>algo</em>?</h2>
+      <p class="contact-text reveal">
+        Cada prenda puede adaptarse a tu talle, preferencia de color o un detalle especial. Escribime por email o seguime en Instagram donde comparto el proceso detrás de cada pieza y los nuevos lanzamientos.
+      </p>
+      <div class="contact-buttons reveal">
+        <a href="mailto:tu@correo.com?subject=Consulta%20Design%20By%20Vale" class="btn btn-dark">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <rect x="1" y="3" width="12" height="8" rx="1" stroke="currentColor" stroke-width="1"/>
+            <path d="M1 4 L7 8 L13 4" stroke="currentColor" stroke-width="1" fill="none"/>
+          </svg>
+          Escribime un email
+        </a>
+        <a href="https://www.instagram.com/designbyvale/" target="_blank" rel="noopener" class="btn btn-outline">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <rect x="1" y="1" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1"/>
+            <circle cx="7" cy="7" r="3" stroke="currentColor" stroke-width="1"/>
+            <circle cx="10.5" cy="3.5" r="0.75" fill="currentColor"/>
+          </svg>
+          @designbyvale
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">Design By Vale</span>
+    <span class="footer-copy">© 2025 · Hecho a mano con amor</span>
+    <a href="https://www.instagram.com/designbyvale/" target="_blank" rel="noopener" class="footer-ig">Instagram ↗</a>
+  </footer>
+
+  <script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width = '4px';
+        cursor.style.height = '4px';
+        ring.style.width = '48px';
+        ring.style.height = '48px';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width = '8px';
+        cursor.style.height = '8px';
+        ring.style.width = '32px';
+        ring.style.height = '32px';
+      });
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
